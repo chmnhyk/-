@@ -1,0 +1,80 @@
+해사인공지능보안학부 20220560 정진우 해사데이터마이닝 3주차 과제 
+
+리스트와 for 문을 이용한 list 조작하기
+
+a = [2, 3, 4, 5, 6]이 있을 경우; 이 리스트의 순서를 바꾸는 기능을 reverse() 메소드를 사용하지 않고 for-in 문과 pop() 메소드를 사용하여 구현하시오(힌트 : 리스트의 원소를 하나하나 순회하면서 pop() 메소드를 호출하시오.
+
+a = [2, 3, 4, 5, 6]
+
+reversed_list = [] 
+
+for i in range(len(a)):
+     reversed_list.append(a.pop()) 
+
+print(reversed_list)
+
+tuple 활용하기
+
+주어진 튜플에서 가장 많이 나타나는 요소를 출력하라. 이때 가장 많이 나타나는 요소가 두 개 이상일 경우 이들 중에서 가장 큰 값을 출력하여라.
+
+주어진 튜플은: (1, 2, 5, 4, 3, 2, 1, 4, 7, 8, 9, 9, 3 ,7, 3)
+
+from collections import Counter
+
+t = (1, 2, 5, 4, 3, 2, 1, 4, 7, 8, 9, 9, 3, 7, 3)
+
+counter = Counter(t)
+
+max_count = max(counter.values())
+
+most_common_elements = [key for key, value in counter.items() if value == max_count]
+result = max(most_common_elements)
+
+print(result)
+
+3
+
+딕셔너리 활용하기1
+
+동윤이가 새로 문을 열고 운영하는 커피 가게에는 Americano, ice Americano, Cappuccino, Caffe Latte, Espresso의 5가지 메뉴가 있으며, 각 메뉴의 가격은 각각 3,000원, 3,500원, 4,000원, 4,500원, 3,600원이다. 이 목록을 menu라는 딕셔너리로 작성하라.
+
+### 1) 이 menu의 내용을 for key in menu; 구문을 사용하여 다음과 같이 출력하여라.
+---
+실행 결과
+'''
+Americano                 가격 : 3,000원
+ice Americano            가격 :  3,500원
+Cappuccino               가격 :  4,000원
+Cafe Latte                  가격 : 4,500원
+Espresso                    가격 : 3,600원
+
+=>
+menu = {
+    "Americano": 3000,
+    "ice Americano": 3500,
+    "Cappuccino": 4000,
+    "Caffe Latte": 4500,
+    "Espresso": 3600
+}
+
+for key in menu:
+    print(f"{key:<20} 가격 : {menu[key]:>6}원")
+
+딕셔너리 2
+
+사용자로부터 다음과 같은 주문을 받은 후 주문한 내용이 메뉴에 있는지 구하는 프로그램을 작성하라.(힌트 : in 연산자를 사용할것)
+
+menu = {
+    "Americano": 3000,
+    "ice Americano": 3500,
+    "Cappuccino": 4000,
+    "Caffe Latte": 4500,
+    "Espresso": 3600
+}
+
+order = input("주문하실 커피를 입력하세요: ")
+
+if order in menu:
+    print(f"{order}는 메뉴에 있습니다. 가격은 {menu[order]}원입니다.")
+else:
+    print(f"{order}는 메뉴에 없습니다. 다시 입력해주세요.")
