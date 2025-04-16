@@ -1,0 +1,48 @@
+ 데이터프레임
+data = {
+    'Country': ['China', 'EU', 'US', 'Japan', 'Korea', 'Mexico'],
+    '2007': [7.71, 19.02, 10.47, 10.87, 4.04, 2.01],
+    '2008': [7.95, 17.71, 8.45, 10.83, 3.78, 2.05],
+    '2009': [11.96, 15.00, 5.58, 7.55, 3.45, 1.50],
+    '2010': [15.84, 16.70, 7.60, 9.09, 4.20, 2.25],
+    '2011': [16.33, 17.48, 8.60, 7.88, 4.62, 2.54],
+}
+
+df = pd.DataFrame(data)
+df.set_index('Country', inplace=True)
+
+# 각 국가별 연도 평균을 계산하여 Average 열로 추가
+df['Average'] = df.select_dtypes(include=np.number).mean(axis=1)
+
+# 연도별 합계를 Total 행으로 추가
+total = df.select_dtypes(include=np.number).sum().rename('Total')
+df = pd.concat([df, pd.DataFrame([total])])
+
+print(df)
+
+
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# CSV 파일 읽기
+weather = pd.read_csv(weather_file, encoding='CP949')
+weather['month'] = pd.DatetimeIndex(weather['일시']).month
+
+# 월별 데이터 초기화
+monthly = [None for _ in range(12)]
+monthly_wind = [0 for _ in range(12)]
+
+# 각 월에 대해 평균풍속 계산
+for i in range(12):
+    monthly[i] = weather[weather['month'] == i + 1]
+    monthly_wind[i] = monthly[i].mean()['평균풍속']
+
+# 그래프 그리기
+months = np.arange(1, 13)
+plt.bar(months, monthly_wind, color='skyblue')
+plt.xlabel('Month')
+plt.ylabel('Wind Speed (평균풍속)')
+plt.title('월별 평균풍속')
+plt.show()
