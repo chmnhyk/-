@@ -1,0 +1,39 @@
+import pandas as pd
+import json
+
+# JSON 파일 읽기
+with open('example.json', 'r', encoding='utf-8') as file:
+    data = json.load(file)
+
+# DataFrame으로 변환
+df = pd.DataFrame(data)
+
+# DataFrame 확인
+print(df)
+ mport pandas as pd
+import xml.etree.ElementTree as ET
+
+# XML 파일 경로
+xml_file = 'annotations.xml'
+
+# XML 파싱
+tree = ET.parse(xml_file)
+root = tree.getroot()
+
+# 데이터 저장을 위한 리스트
+data = []
+
+# XML 구조에 따라 필요한 데이터를 추출
+for item in root.findall('record'):
+    entry = {
+        'id': item.find('id').text,
+        'name': item.find('name').text,
+        'value': item.find('value').text
+    }
+    data.append(entry)
+
+# DataFrame 생성
+df_xml = pd.DataFrame(data)
+
+# DataFrame 확인
+print(df_xml.head())
