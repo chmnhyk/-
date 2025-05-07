@@ -1,0 +1,19 @@
+import requests
+from bs4 import BeautifulSoup
+import pandas as pd
+
+# 1. 웹 페이지 요청
+url = 'https://library.gabia.com/contents/13824/'
+headers = {'User-Agent': 'Mozilla/5.0'}
+response = requests.get(url, headers=headers)
+
+# 2. HTML 파싱
+soup = BeautifulSoup(response.text, 'html.parser')
+
+# 3. 제목 추출
+title_tag = soup.find('h1')
+title = title_tag.get_text(strip=True) if title_tag else '제목 없음'
+
+# 4. 본문 내용 추출
+content_div = soup.find('div', class_='entry-content')
+paragraphs = content_div.find_all('p') if c
