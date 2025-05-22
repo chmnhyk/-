@@ -1,0 +1,31 @@
+# 코로나 확진자 데이터 분석
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Our World in Data 데이터셋 사용 (CSV 파일에서 불러오기)
+url = 'https://covid.ourworldindata.org/data/owid-covid-data.csv'
+df = pd.read_csv(url)
+
+# 대한민국(KOR)과 프랑스(FRA) 데이터 필터링
+countries = ['KOR', 'FRA']
+df = df[df['iso_code'].isin(countries)]
+
+# 인구 대비 누적 확진자 비율 계산 (누적 확진자 수 / 인구)
+df['cases_per_population'] = df['total_cases'] / df['population']
+
+# 날짜 형식으로 변환
+df['date'] = pd.to_datetime(df['date'])
+
+# 피벗 테이블 형태로 재구성 (날짜 기준으로 각 국가의 비율 정렬)
+pivot_df = df.pivot(index='date', columns='iso_code', values='cases_per_population')
+
+# 시각화
+plt.figure(figsize=(10, 6))
+plt.plot(pivot_df.index, pivot_df['KOR'], label='KOR')
+plt.plot(pivot_df.index, pivot_df['FRA'], label='FRA')
+plt.xlabel('date')
+plt.ylabel('Confirmed Cases per Population')
+plt.title('대한민국과 프랑스의 인구 대비 확진자 수 비율 변화 추이')
+plt.legend()
+plt.grid(True)
+plt.show()
