@@ -1,0 +1,33 @@
+해사데이터마이닝 11주차 과제 20220564 최민혁
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# 주별 인구
+population = {
+    'CA': 39_000_000,
+    'TX': 30_000_000,
+    'VA': 8_700_000,
+    'IL': 12_500_000,
+    'WA': 7_800_000
+}
+
+# 파일 읽기
+states = ['CA', 'TX', 'VA', 'IL', 'WA']
+dfs = {}
+
+for state in states:
+    df = pd.read_csv(f'./{state.lower()}-coviddata.csv')  # 파일명 예시: ca-coviddata.csv
+    df['date_updated'] = pd.to_datetime(df['date_updated'])
+    df.set_index('date_updated', inplace=True)
+    df = df[['tot_cases']]
+    df[f'{state}_rate'] = df['tot_cases'] / population[state]
+    dfs[state] = df[[f'{state}_rate']]
+
+# 모든 주의 데이터 통합
+final_df = pd.concat([dfs[state] for state in states], axis=1)
+final_df.plot.line(figsize=(12, 6), title='주별 인구비례 확진자 수 비율 추이', rot=45)
+plt.ylabel('확진자 수 / 인구')
+plt.xlabel('날짜')
+plt.grid(True)
+plt.show()
