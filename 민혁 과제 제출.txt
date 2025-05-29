@@ -1,0 +1,25 @@
+ import pandas as pd
+import matplotlib.pyplot as plt
+
+raw_data = pd.read_csv('./survey_results_public.csv')
+
+raw_data.info()
+
+target_data = raw_data[['Age', 'Country', 'LanguageHaveWorkedWith', 'LearnCode']]
+target_data.head()
+
+size_by_LearnCode = target_data.groupby('LearnCode').size()
+print(size_by_LearnCode)
+
+methods = target_data['LearnCode']
+print(methods)
+20220564 최민혁
+
+
+methods = methods.dropna().str.split(';')
+print(methods)
+
+exploded_methods = methods.explode()
+print(exploded_methods)
+
+size_by_methods 
